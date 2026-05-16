@@ -16,10 +16,10 @@
 ![Login](./screenshots/login.png)
 
 ### ✅ Tasks Page
-![Tasks](./screenshots/task.png)
+![Tasks](./screenshots/tasks.png)
 
 ### 👥 Users Management
-![Users](./screenshots/user.png)
+![Users](./screenshots/users.png)
 
 ---
 
