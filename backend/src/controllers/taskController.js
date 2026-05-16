@@ -1,5 +1,6 @@
 import prisma from "../config/prisma.js";
 import { isValidPriority, isValidStatus } from "../utils/validators.js";
+import { getIO } from "../socket.js";
 
 export const createTask = async (req, res) => {
   try {
@@ -72,6 +73,8 @@ export const createTask = async (req, res) => {
         documents: true,
       },
     });
+
+    getIO().emit("taskCreated", task);
 
     res.status(201).json({
       message: "Task created successfully",
@@ -324,6 +327,8 @@ export const updateTask = async (req, res) => {
       },
     });
 
+    getIO().emit("taskUpdated", task);
+
     res.json({
       message: "Task updated successfully",
       task,
@@ -364,6 +369,10 @@ export const deleteTask = async (req, res) => {
 
     await prisma.task.delete({
       where: { id: taskId },
+    });
+
+    getIO().emit("taskDeleted", {
+      id: taskId,
     });
 
     res.json({

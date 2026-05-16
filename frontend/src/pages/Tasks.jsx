@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import TaskCard from "../components/TaskCard";
 import Loader from "../components/Loader";
 import { getTasks } from "../api/taskApi";
+import socket from "../socket";
 
 function Tasks() {
   const [tasks, setTasks] = useState([]);
@@ -55,6 +56,22 @@ function Tasks() {
     }, 300);
 
     return () => clearTimeout(delaySearch);
+  }, [search, status, priority, sortBy, page]);
+
+  useEffect(() => {
+    const handleRealtimeUpdate = () => {
+      fetchTasks();
+    };
+
+    socket.on("taskCreated", handleRealtimeUpdate);
+    socket.on("taskUpdated", handleRealtimeUpdate);
+    socket.on("taskDeleted", handleRealtimeUpdate);
+
+    return () => {
+      socket.off("taskCreated", handleRealtimeUpdate);
+      socket.off("taskUpdated", handleRealtimeUpdate);
+      socket.off("taskDeleted", handleRealtimeUpdate);
+    };
   }, [search, status, priority, sortBy, page]);
 
   const handleFilterChange = (setter, value) => {
