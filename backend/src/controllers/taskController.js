@@ -2,6 +2,14 @@ import prisma from "../config/prisma.js";
 import { isValidPriority, isValidStatus } from "../utils/validators.js";
 import { getIO } from "../socket.js";
 
+const emitSocketEvent = (eventName, data) => {
+  try {
+    getIO().emit(eventName, data);
+  } catch {
+    // Socket.IO is not initialized during automated tests
+  }
+};
+
 export const createTask = async (req, res) => {
   try {
     const {
@@ -74,7 +82,7 @@ export const createTask = async (req, res) => {
       },
     });
 
-    getIO().emit("taskCreated", task);
+    emitSocketEvent("taskCreated", task);
 
     res.status(201).json({
       message: "Task created successfully",
@@ -327,7 +335,7 @@ export const updateTask = async (req, res) => {
       },
     });
 
-    getIO().emit("taskUpdated", task);
+    emitSocketEvent("taskUpdated", task);
 
     res.json({
       message: "Task updated successfully",
@@ -371,7 +379,7 @@ export const deleteTask = async (req, res) => {
       where: { id: taskId },
     });
 
-    getIO().emit("taskDeleted", {
+    emitSocketEvent("taskDeleted", {
       id: taskId,
     });
 
