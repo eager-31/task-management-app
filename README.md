@@ -16,10 +16,10 @@
 ![Login](./screenshots/login.png)
 
 ### ✅ Tasks Page
-![Tasks](./screenshots/tasks.png)
+![Tasks](./screenshots/task.png)
 
 ### 👥 Users Management
-![Users](./screenshots/users.png)
+![Users](./screenshots/user.png)
 
 ---
 
@@ -150,6 +150,18 @@ docker-compose up --build
 cd backend
 npm test
 ```
+
+---
+
+## 📘 Swagger API Documentation
+
+Interactive API documentation is available via Swagger UI once the backend is running:
+
+```
+http://localhost:5000/api-docs
+```
+
+You can explore and test all endpoints directly from the browser — no external tool needed.
 
 ---
 
